@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="container">
+        <input type="text" id="enterSearch">
+        <button class="search">查詢</button>
+        <input type="text" id="enterFilter">
+        <button class="typeFilter">類型篩選</button>
+        <h3>請輸入範圍</h3>
+        <input type="text" id="enterNumScope1">
+        <h2>~</h2>
+        <input type="text" id="enterNumScope2">
+        <button class="scopeFilter">價格範圍搜尋</button>
+        <table id="formTable"></table>
+    </div>
+    <!-- <div class="container">
+        <table class="form"></table>
+    </div> -->
+
+
+
+    <script type="module">
+        import { product } from "../domPractice/product.js";
+        let search = document.querySelector(".search");
+        search.addEventListener("click", function (event) {
+
+            let enterSearch = document.querySelector("#enterSearch");
+            product.forEach(element => {
+                if (element.ProductNumber == enterSearch.value) {
+                    alert(`這個商品為${element.ProductName}價格為${element.Price}剩餘數量為${element.Amount}類型為${element.ProductType}`);
+                }
+            });
+        })
+
+        let typeFilter = document.querySelector(".typeFilter");
+        typeFilter.addEventListener("click", function (event) {
+            let enterFilter = document.querySelector("#enterFilter");
+            let formTable = document.querySelector("#formTable");
+            formTable.innerHTML = "";
+            product.forEach(element => {
+                if (element.ProductType == enterFilter.value) {
+                    let valuesFilter = Object.values(element);
+                    let tr = document.createElement('tr');
+                    valuesFilter.forEach(item => {
+                        let td = document.createElement('td');
+                        let text = document.createTextNode(item);
+                        td.append(text);
+                        tr.append(td);
+                    })
+                    formTable.append(tr);
+                }
+            })
+        })
+
+        let scopeFilter = document.querySelector(".scopeFilter");
+        scopeFilter.addEventListener("click", function(event){
+            let enterNumScope1 = document.querySelector("#enterNumScope1");
+            let enterNumScope2 = document.querySelector("#enterNumScope2");
+            let formTable = document.querySelector("#formTable");
+            formTable.innerHTML = "";
+            product.forEach(element=>{
+                if(element.Price >= enterNumScope1.value && element.Price <= enterNumScope2.value){
+                    let valuesFilter = Object.values(element);
+                    let tr = document.createElement('tr');
+                    valuesFilter.forEach(item => {
+                        let td = document.createElement('td');
+                        let text = document.createTextNode(item);
+                        td.append(text);
+                        tr.append(td);
+                    })
+                    formTable.append(tr);
+                }
+            })
+        })
+    </script>
+</body>
+
+</html>
