@@ -6,6 +6,19 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        #formTable{
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            width: 100%;
+        }
+        .item{
+            background-color: #ADD8E6;
+            width: fit-content;  /*fitcontent意思是用來剛好符合內容物大學*/
+            padding: 10px;
+        }
+    </style>
 </head>
 
 <body>
@@ -19,13 +32,11 @@
         <h2>~</h2>
         <input type="text" id="enterNumScope2">
         <button class="scopeFilter">價格範圍搜尋</button>
-        <table id="formTable"></table>
+        <div id="formTable"></div>
     </div>
     <!-- <div class="container">
         <table class="form"></table>
     </div> -->
-
-
 
     <script type="module">
         import { product } from "../domPractice/product.js";
@@ -38,18 +49,23 @@
             num = 0;
             product.forEach(element => {
                 if (element.ProductNumber == enterSearch.value) {
-                    let valuesSearch = Object.values(element)
-                    let tr = document.createElement('tr');
                     num++;
-                    valuesSearch.forEach(item=>{
-                        let td = document.createElement('td');
-                        let text = document.createTextNode(item);
-                        td.append(text);
-                        tr.append(td);
-                    })
-                    formTable.append(tr);
-                    // alert(`這個商品為${element.ProductName}價格為${element.Price}剩餘數量為${element.Amount}類型為${element.ProductType}`);
-                    
+                    let item = document.createElement('div');
+                    item.setAttribute('class', 'item');
+                    let itemText = "";
+                    itemText += `<img src="https://picsum.photos/300/200/?random=10">`;
+                    itemText += `<h2>商品編號:${element.ProductNumber}</h2>`;
+                    itemText += `<h2>商品名稱:${element.ProductName}</h2>`;
+                    if (element.Amount == 0){
+                        itemText += `<h2>商品數量:${element.Amount} (已售完)</h2>`;
+                    }
+                    else{
+                        itemText += `<h2>商品數量:${element.Amount}</h2>`;
+                    }        
+                    itemText += `<h2>商品價格:${element.Price}</h2>`;
+                    itemText += `<h2>商品類型:${element.ProductType}</h2>`;
+                    item.innerHTML = itemText;
+                    formTable.append(item);
                 }
             })
             foolProof(num);
@@ -63,46 +79,60 @@
             num = 0;
             product.forEach(element => {
                 if (element.ProductType == enterFilter.value) {
-                    let valuesFilter = Object.values(element);
-                    let tr = document.createElement('tr');
                     num++;
-                    valuesFilter.forEach(item => {
-                        let td = document.createElement('td');
-                        let text = document.createTextNode(item);
-                        td.append(text);
-                        tr.append(td);
-                    })
-                    formTable.append(tr);
+                    let item = document.createElement('div');
+                    item.setAttribute('class', 'item');
+                    let itemText = "";
+                    itemText += `<img src="https://picsum.photos/300/200/?random=10">`;
+                    itemText += `<h2>商品編號:${element.ProductNumber}</h2>`;
+                    itemText += `<h2>商品名稱:${element.ProductName}</h2>`;
+                    if (element.Amount == 0){
+                        itemText += `<h2>商品數量:${element.Amount} (已售完)</h2>`;
+                    }
+                    else{
+                        itemText += `<h2>商品數量:${element.Amount}</h2>`;
+                    }
+                    itemText += `<h2>商品價格:${element.Price}</h2>`;
+                    itemText += `<h2>商品類型:${element.ProductType}</h2>`;
+                    item.innerHTML = itemText;
+                    formTable.append(item);
                 }
             })
             foolProof(num);
         })
 
         let scopeFilter = document.querySelector(".scopeFilter");
-        scopeFilter.addEventListener("click", function(event){
+        scopeFilter.addEventListener("click", function (event) {
             let enterNumScope1 = document.querySelector("#enterNumScope1");
             let enterNumScope2 = document.querySelector("#enterNumScope2");
             let formTable = document.querySelector("#formTable");
             formTable.innerHTML = "";
             num = 0;
-            product.forEach(element=>{
-                if(element.Price >= enterNumScope1.value && element.Price <= enterNumScope2.value){
-                    let valuesFilter = Object.values(element);
-                    let tr = document.createElement('tr');
+            product.forEach(element => {
+                if (element.Price >= enterNumScope1.value && element.Price <= enterNumScope2.value) {
                     num++;
-                    valuesFilter.forEach(item => {
-                        let td = document.createElement('td');
-                        let text = document.createTextNode(item);
-                        td.append(text);
-                        tr.append(td);
-                    })
-                    formTable.append(tr);
+                    let item = document.createElement('div');
+                    item.setAttribute('class', 'item');
+                    let itemText = "";
+                    itemText += `<img src="https://picsum.photos/300/200/?random=10">`;
+                    itemText += `<h2>商品編號:${element.ProductNumber}</h2>`;
+                    itemText += `<h2>商品名稱:${element.ProductName}</h2>`;
+                    if (element.Amount == 0){
+                        itemText += `<h2>商品數量:${element.Amount} (已售完)</h2>`;
+                    }
+                    else{
+                        itemText += `<h2>商品數量:${element.Amount}</h2>`;
+                    }
+                    itemText += `<h2>商品價格:${element.Price}</h2>`;
+                    itemText += `<h2>商品類型:${element.ProductType}</h2>`;
+                    item.innerHTML = itemText;
+                    formTable.append(item);
                 }
             })
             foolProof(num);
         })
-        function foolProof(numberNum){
-            if(numberNum == 0){
+        function foolProof(numberNum) {
+            if (numberNum == 0) {
                 alert("查無結果!請重新輸入");
             }
         }
